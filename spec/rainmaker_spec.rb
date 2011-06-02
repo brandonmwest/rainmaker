@@ -15,12 +15,23 @@ describe Rainmaker do
 		stub_get("person.json").
 		  with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com"}).
 		  to_return(:body => fixture("person.json"), :headers => {:content_type => "application/json; charset=utf-8"})
+
+		stub_get("person.json").
+		  with(:query => {:apiKey => "passed_api_key", :email => "brawest@gmail.com", :timeoutSeconds => "passed_timeout"}).
+		  to_return(:body => fixture("person.json"), :headers => {:content_type => "application/json; charset=utf-8"})
     end
 
     it "should get the correct resource" do
       Rainmaker.person("brawest@gmail.com")
       a_get("person.json")
 	  .with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com"})
+	  .should have_been_made
+    end
+
+	it "should get person with provided api_key and timeout_seconds" do
+      Rainmaker.person("brawest@gmail.com", {:api_key => "passed_api_key", :timeout_seconds => "passed_timeout"})
+      a_get("person.json")
+	   .with(:query => {:apiKey => "passed_api_key", :email => "brawest@gmail.com", :timeoutSeconds => "passed_timeout"})
 	  .should have_been_made
     end
 
