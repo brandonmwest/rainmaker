@@ -23,6 +23,10 @@ describe Rainmaker do
 		stub_get("person.json").
 		  with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com", :timeoutSeconds => "from_config"}).
 		  to_return(:body => fixture("person.json"), :headers => {:content_type => "application/json; charset=utf-8"})
+
+		stub_get("person.json").
+		  with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com", :timeoutSeconds => "0"}).
+		  to_return(:body => fixture("person.json"), :headers => {:content_type => "application/json; charset=utf-8"})
     end
 
     it "should get the correct resource" do
