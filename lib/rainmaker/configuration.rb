@@ -7,6 +7,7 @@ module Rainmaker
     VALID_OPTIONS_KEYS = [
       :adapter,
       :api_key,
+	  :timeout_seconds,
       :endpoint,
       :format,
       :gateway,
@@ -14,8 +15,6 @@ module Rainmaker
       :user_agent].freeze
 
     # An array of valid request/response formats
-    #
-    # @note Not all methods support the XML format.
     VALID_FORMATS = [
       :json,
       :xml].freeze
@@ -27,6 +26,9 @@ module Rainmaker
 
     # By default, don't set an application key
     DEFAULT_API_KEY = nil
+
+	# By default, don't set a timeout
+    DEFAULT_TIMEOUT_SECONDS = nil
 
     # The endpoint that will be used to connect if none is set
     #
@@ -74,6 +76,7 @@ module Rainmaker
       self.proxy              = DEFAULT_PROXY
       self.user_agent         = DEFAULT_USER_AGENT
       self.gateway            = DEFAULT_GATEWAY
+	  self.timeout_seconds    = DEFAULT_TIMEOUT_SECONDS
       self
     end
   end
