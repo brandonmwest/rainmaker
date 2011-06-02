@@ -16,7 +16,10 @@ module Rainmaker
 		#set them from Rainmaker.options if not
 
 		options[:api_key] = Rainmaker.options[:api_key] if options[:api_key].nil?
-		options[:timeout_seconds] = Rainmaker.options[:timeout_seconds] if options[:api_key].nil?
+
+		if options[:timeout_seconds].nil?
+			options[:timeout_seconds] = Rainmaker.options[:timeout_seconds] unless Rainmaker.options[:timeout_seconds].nil?
+		end
 
 		query_params = QueryParams.new(options)
 

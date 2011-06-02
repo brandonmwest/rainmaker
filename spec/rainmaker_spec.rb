@@ -19,6 +19,10 @@ describe Rainmaker do
 		stub_get("person.json").
 		  with(:query => {:apiKey => "passed_api_key", :email => "brawest@gmail.com", :timeoutSeconds => "passed_timeout"}).
 		  to_return(:body => fixture("person.json"), :headers => {:content_type => "application/json; charset=utf-8"})
+
+		stub_get("person.json").
+		  with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com", :timeoutSeconds => "from_config"}).
+		  to_return(:body => fixture("person.json"), :headers => {:content_type => "application/json; charset=utf-8"})
     end
 
     it "should get the correct resource" do
@@ -34,6 +38,18 @@ describe Rainmaker do
 	   .with(:query => {:apiKey => "passed_api_key", :email => "brawest@gmail.com", :timeoutSeconds => "passed_timeout"})
 	  .should have_been_made
     end
+
+	it "should us timeout_seconds from config if not passed in" do
+		Rainmaker.configure do |config|
+			config.timeout_seconds = "from_config"
+		end
+
+		Rainmaker.person("brawest@gmail.com")
+		a_get("person.json")
+		.with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com", :timeoutSeconds => "from_config"})
+		.should have_been_made
+
+	end
 
     it "should return the same results as a client" do
       Rainmaker.person("brawest@gmail.com").should == Rainmaker::Client.new.person("brawest@gmail.com")
