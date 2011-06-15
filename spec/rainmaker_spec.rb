@@ -25,6 +25,14 @@ describe Rainmaker do
       to_return(:body => fixture("person.json"), :headers => {:content_type => "application/json; charset=utf-8"})
 
     stub_get("person.json").
+      with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com", :lt => "from_config"}).
+      to_return(:body => fixture("person.json"), :headers => {:content_type => "application/json; charset=utf-8"})
+
+    stub_get("person.json").
+      with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com", :tt => "from_config"}).
+      to_return(:body => fixture("person.json"), :headers => {:content_type => "application/json; charset=utf-8"})
+
+    stub_get("person.json").
       with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com", :timeoutSeconds => "0"}).
       to_return(:body => fixture("person.json"), :headers => {:content_type => "application/json; charset=utf-8"})
     end
@@ -32,28 +40,49 @@ describe Rainmaker do
     it "should get the correct resource" do
       Rainmaker.person("brawest@gmail.com")
       a_get("person.json")
-    .with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com"})
-    .should have_been_made
+      .with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com"})
+      .should have_been_made
     end
 
-  it "should get person with provided api_key and timeout_seconds" do
+    it "should get person with provided api_key and timeout_seconds" do
       Rainmaker.person("brawest@gmail.com", {:api_key => "passed_api_key", :timeout_seconds => "passed_timeout"})
       a_get("person.json")
      .with(:query => {:apiKey => "passed_api_key", :email => "brawest@gmail.com", :timeoutSeconds => "passed_timeout"})
-    .should have_been_made
+     .should have_been_made
     end
 
-  it "should us timeout_seconds from config if not passed in" do
-    Rainmaker.configure do |config|
-      config.timeout_seconds = "from_config"
+    it "should use timeout_seconds from config if not passed in" do
+      Rainmaker.configure do |config|
+        config.timeout_seconds = "from_config"
+      end
+
+      Rainmaker.person("brawest@gmail.com")
+      a_get("person.json")
+      .with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com", :timeoutSeconds => "from_config"})
+      .should have_been_made
+    end
+    
+    it "should use linkedin_token from config if existing" do
+      Rainmaker.configure do |config|
+        config.linkedin_token = "from_config"
+      end
+      
+      Rainmaker.person("brawest@gmail.com")
+      a_get("person.json")
+      .with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com", :lt => "from_config"})
+      .should have_been_made
     end
 
-    Rainmaker.person("brawest@gmail.com")
-    a_get("person.json")
-    .with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com", :timeoutSeconds => "from_config"})
-    .should have_been_made
-
-  end
+    it "should use twitter_token from config if existing" do
+      Rainmaker.configure do |config|
+        config.twitter_token = "from_config"
+      end
+      
+      Rainmaker.person("brawest@gmail.com")
+      a_get("person.json")
+      .with(:query => {:apiKey => "api_key", :email => "brawest@gmail.com", :tt => "from_config"})
+      .should have_been_made
+    end
 
     it "should return the same results as a client" do
       Rainmaker.person("brawest@gmail.com").should == Rainmaker::Client.new.person("brawest@gmail.com")
