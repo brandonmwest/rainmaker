@@ -19,6 +19,8 @@ Usage Examples
   Rainmaker.configure do |config|
     config.api_key = "rainmaker_api_key_goes_here"
     config.timeout_seconds = "30"  # value will be used for all requests unless overridden
+    config.twitter_token = "twitter_token_goes_here" #contact support@rainmaker.cc for details
+    config.linkedin_token = "linked_in_token_goes_here" #contact support@rainmaker.cc for details
   end
   
     # Get information about an email address
