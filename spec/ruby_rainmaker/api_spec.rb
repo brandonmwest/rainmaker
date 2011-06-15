@@ -36,7 +36,9 @@ describe Rainmaker::API do
           :format => :xml,
           :proxy => 'http://erik:sekret@proxy.example.com:8080',
           :user_agent => 'Custom User Agent',
-		  :timeout_seconds => "Timeout Seconds"
+          :timeout_seconds => "Timeout Seconds",
+          :linkedin_token => "LinkedIn Token",
+          :twitter_token => "Twitter Token"
         }
       end
 

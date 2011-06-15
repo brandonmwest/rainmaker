@@ -4,10 +4,10 @@ module Rainmaker
       # Returns extended information for a given email
       #
        def person(email, options = {})
-	    options[:email] = email
+      options[:email] = email
         response = get('person', options)
         format.to_s.downcase == 'xml' ? response['person'] : response
-	   end
-  	end
+     end
+    end
   end
 end
