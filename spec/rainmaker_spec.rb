@@ -43,7 +43,7 @@ describe Rainmaker do
 	  .should have_been_made
     end
 
-	it "should us timeout_seconds from config if not passed in" do
+	it "should use timeout_seconds from config if not passed in" do
 		Rainmaker.configure do |config|
 			config.timeout_seconds = "from_config"
 		end
