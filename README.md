@@ -26,11 +26,11 @@ Usage Examples
     # Get information about an email address
     person = Rainmaker.person("brawest@gmail.com")
   
-  # Get person's family_name
-  puts person.contact_info.family_name
+    # Get person's family_name
+    puts person.contact_info.family_name
 
-  # Override timeout_seconds for single call
-  person = Rainmaker.person("brawest@gmail.com", { :timeout_seconds => "0" })
+    # Override timeout_seconds for single call
+    person = Rainmaker.person("brawest@gmail.com", { :timeout_seconds => "0" })
   
 Copyright
 ---------
