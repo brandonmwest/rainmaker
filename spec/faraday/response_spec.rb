@@ -4,9 +4,9 @@ require 'rainmaker'
 
 describe Faraday::Response do
   before do
-	Rainmaker.configure do |config|
-		config.api_key = "api_key"
-	end
+  Rainmaker.configure do |config|
+    config.api_key = "api_key"
+  end
     @client = Rainmaker::Client.new
   end
 
@@ -39,8 +39,8 @@ describe Faraday::Response do
         context "when HTTP status is #{status} and body is #{body||='nil'}" do
           before do
             body_message = '{"'+body+'":"test"}' unless body.nil?
-         	stub_get('person.json').
-				with(:query => {:apiKey => "api_key", :email => 'brawest@gmail.com'}).
+           stub_get('person.json').
+        with(:query => {:apiKey => "api_key", :email => 'brawest@gmail.com'}).
                to_return(:status => status, :body => body_message)
           end
 

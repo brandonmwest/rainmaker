@@ -19,11 +19,11 @@ module Faraday
     end
 
 
-	end
+  end
 
-	private
+  private
 
-	def error_message(env)
+  def error_message(env)
       "#{env[:method].to_s.upcase} #{env[:url].to_s}: #{env[:status]}#{error_body(env[:body])}"
     end
 
